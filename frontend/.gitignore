@@ -24,5 +24,4 @@ dist-ssr
 *.sw?
 
 frontend/src/assets/
-/src/assets
-/src/assets/
+
