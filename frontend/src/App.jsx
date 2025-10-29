@@ -13,8 +13,10 @@ import Login from './pages/Login'
 
 const App = () => {
   return (
-    <div className='px-4 lg:px-[5vw] pr-8 wec'>
-      <Navbar />
+    <div className='px-4 lg:px-[5vw]'>
+      <div className='px-1'>
+        <Navbar />
+      </div>
       <Routes>
 
         <Route path='/' element={<Home />} />
@@ -28,7 +30,7 @@ const App = () => {
         <Route path='/orders' element={<Orders />} />
 
 
-        
+
       </Routes>
     </div>
   )
