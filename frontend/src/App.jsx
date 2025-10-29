@@ -8,10 +8,13 @@ import Product from './pages/Product'
 import Cart from './pages/Cart'
 import PlaceOrder from './pages/PlaceOrder'
 import Orders from './pages/Orders'
+import Navbar from './components/Navbar'
+import Login from './pages/Login'
 
 const App = () => {
   return (
-    <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
+    <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[3vw]'>
+      <Navbar />
       <Routes>
 
         <Route path='/' element={<Home />} />
