@@ -13,7 +13,7 @@ import Login from './pages/Login'
 
 const App = () => {
   return (
-    <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[3vw]'>
+    <div className='px-4 lg:px-[5vw] pr-8 wec'>
       <Navbar />
       <Routes>
 
