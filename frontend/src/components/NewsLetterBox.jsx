@@ -1,8 +1,8 @@
 import React from 'react'
 
 const NewsLetterBox = () => {
-    const onSubmitHandler = () => {
-
+    const onSubmitHandler = (e) => {
+        e.preventDefault();
     }
     return (
         <div className='text-center'>
