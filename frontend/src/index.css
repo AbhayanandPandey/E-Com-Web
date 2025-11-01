@@ -23,3 +23,9 @@ a.active hr{
     padding-right: 0.2rem;
   }
 }
+ @media (max-width:640px) {
+    a.active{
+        background-color: rgb(25, 23, 23);
+        color: white;
+    }
+ }
