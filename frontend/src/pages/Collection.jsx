@@ -41,7 +41,6 @@ const Collection = () => {
 
   return (
     <div className="flex flex-col sm:flex-row gap-8 pt-10 border-t border-gray-200 pb-8 px-3 sm:px-6 lg:px-10 bg-white">
-      {/* Sidebar Filters */}
       <aside
         className={`w-full sm:w-64 sm:sticky sm:top-24 h-auto sm:h-[80vh]  scrollbar-thin scrollbar-thumb-gray-300 rounded-xl border border-gray-200 bg-gray-50 sm:p-5 p-3 transition-all duration-300 ${
           showFilter ? "max-h-screen" : "max-h-14 sm:max-h-full"
@@ -108,7 +107,6 @@ const Collection = () => {
         </div>
       </aside>
 
-      {/* Products Section */}
       <main className="flex-1">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
           <Title text1="ALL" text2="COLLECTIONS" />
