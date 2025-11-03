@@ -12,6 +12,30 @@ const Collection = () => {
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [sort, setSort] = useState("relevant");
 
+  const [visibleCount, setVisibleCount] = useState(0);
+  const [loadingMore, setLoadingMore] = useState(false);
+
+  const getInitialCount = () => {
+    if (window.innerWidth >= 1024) return 12;
+    if (window.innerWidth >= 640) return 12; 
+    return 10;
+  };
+
+  
+  useEffect(() => {
+    setVisibleCount(getInitialCount());
+  }, []);
+
+  
+  useEffect(() => {
+    const handleResize = () => {
+      setVisibleCount(getInitialCount());
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  
   useEffect(() => {
     let filtered = [...products];
     if (selectedCategories.length > 0) {
@@ -23,8 +47,10 @@ const Collection = () => {
     if (sort === "low-high") filtered.sort((a, b) => a.price - b.price);
     if (sort === "high-low") filtered.sort((a, b) => b.price - a.price);
     setFilterProd(filtered);
+    setVisibleCount(getInitialCount());
   }, [selectedCategories, selectedTypes, sort, products]);
 
+  
   const handleCategoryChange = (e) => {
     const value = e.target.value;
     setSelectedCategories((prev) =>
@@ -39,10 +65,33 @@ const Collection = () => {
     );
   };
 
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >=
+          document.body.offsetHeight - 300 &&
+        !loadingMore
+      ) {
+        setLoadingMore(true);
+        setTimeout(() => {
+          setVisibleCount((prev) => prev + getInitialCount());
+          setLoadingMore(false);
+        }, 800);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [loadingMore]);
+
+  const visibleProducts = filterProd.slice(0, visibleCount);
+
   return (
     <div className="flex flex-col sm:flex-row gap-8 pt-10 border-t border-gray-200 pb-8 px-3 sm:px-6 lg:px-10 bg-white">
+      
       <aside
-        className={`w-full sm:w-64 sm:sticky sm:top-24 h-auto sm:h-[80vh]  scrollbar-thin scrollbar-thumb-gray-300 rounded-xl border border-gray-200 bg-gray-50 sm:p-5 p-3 transition-all duration-300 ${
+        className={`w-full sm:w-64 sm:sticky sm:top-24 h-auto sm:h-[80vh] scrollbar-thin scrollbar-thumb-gray-300 rounded-xl border border-gray-200 bg-gray-50 sm:p-5 p-3 transition-all duration-300 ${
           showFilter ? "max-h-screen" : "max-h-14 sm:max-h-full"
         }`}
       >
@@ -61,6 +110,7 @@ const Collection = () => {
         </div>
 
         <div className={`${showFilter ? "block" : "hidden"} sm:block mt-3`}>
+          
           <div className="mb-6">
             <p className="mb-3 text-sm font-medium text-gray-600 uppercase tracking-wide">
               Categories
@@ -83,6 +133,7 @@ const Collection = () => {
             </div>
           </div>
 
+          
           <div>
             <p className="mb-3 text-sm font-medium text-gray-600 uppercase tracking-wide">
               Type
@@ -107,6 +158,7 @@ const Collection = () => {
         </div>
       </aside>
 
+      
       <main className="flex-1">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
           <Title text1="ALL" text2="COLLECTIONS" />
@@ -125,17 +177,26 @@ const Collection = () => {
             No products match your filters.
           </p>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filterProd.map((item, i) => (
-              <ProductItem
-                key={i}
-                id={item._id}
-                image={item.image}
-                name={item.name}
-                price={item.price}
-              />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {visibleProducts.map((item, i) => (
+                <ProductItem
+                  key={i}
+                  id={item._id}
+                  image={item.image}
+                  name={item.name}
+                  price={item.price}
+                />
+              ))}
+            </div>
+
+            
+            {visibleCount < filterProd.length && (
+              <div className="flex justify-center mt-10">
+                <div className="w-8 h-8 border-4 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            )}
+          </>
         )}
       </main>
     </div>
