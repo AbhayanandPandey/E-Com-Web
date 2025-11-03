@@ -20,7 +20,7 @@ const ProductItem = ({ id, name, image, price }) => {
           src={image[0]}
           alt={name}
           loading="lazy"
-          onLoad={() => setImgLoaded(false)}
+          onLoad={() => setImgLoaded(true)}
           className={`transition-transform duration-100 ease-in-out ${
             imgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-95"
           } group-hover:scale-110 min-w-full w-full `}
