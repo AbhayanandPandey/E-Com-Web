@@ -20,7 +20,6 @@ const Hero = () => {
                 </div>
             </div>
 
-            {/* Hero Image with Loading State */}
             <div className='w-full sm:w-1/2 relative flex items-center justify-center'>
                 {!imgLoaded && (
                     <div className='absolute inset-0 flex items-center justify-center bg-gray-100'>
@@ -31,7 +30,7 @@ const Hero = () => {
                     src={assets.hero_img}
                     className={`w-full transition-opacity duration-500 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
                     alt=""
-                    onLoad={() => setImgLoaded(false)}
+                    onLoad={() => setImgLoaded(true)}
                 />
             </div>
         </div>
