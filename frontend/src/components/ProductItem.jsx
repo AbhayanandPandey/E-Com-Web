@@ -11,7 +11,7 @@ const ProductItem = ({ id, name, image, price }) => {
       className="text-gray-700 cursor-pointer group"
       to={`/product/${id}`}
     >
-      <div className="relative overflow-hidden bg-gray-100 rounded-lg">
+      <div className="relative overflow-hidden bg-gray-100 rounded-sm">
         {!imgLoaded && (
           <div className="absolute inset-0 animate-pulse bg-linear-to-r from-gray-200 via-gray-300 to-gray-200 rounded-lg" />
         )}
