@@ -29,3 +29,36 @@ a.active hr{
         color: white;
     }
  }
+
+ @keyframes scaleUp {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-scaleUp {
+  display: inline-block;
+  animation: scaleUp 1s infinite ease-in-out;
+}
+
+.animate-scaleUp.delay-200 {
+  animation-delay: 0.2s;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1s ease-in forwards;
+}
+
+.fade-in-slow {
+  animation: fadeIn 1.2s ease-in-out forwards;
+}
