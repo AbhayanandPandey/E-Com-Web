@@ -22,15 +22,15 @@ const Hero = () => {
 
             <div className='w-full sm:w-1/2 relative flex items-center justify-center'>
                 {!imgLoaded && (
-                    <div className='absolute inset-0 flex items-center justify-center bg-gray-100'>
-                        <div className='w-8 h-8 border-4 border-gray-400 border-t-transparent rounded-full animate-spin'></div>
+                    <div className='absolute inset-0 flex items-center justify-center bg-gray-100 animate-pulse'>
+                        
                     </div>
                 )}
                 <img
                     src={assets.hero_img}
                     className={`w-full transition-opacity duration-500 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
                     alt=""
-                    onLoad={() => setImgLoaded(true)}
+                    onLoad={() => setImgLoaded(false)}
                 />
             </div>
         </div>
