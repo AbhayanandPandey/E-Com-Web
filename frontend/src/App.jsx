@@ -17,7 +17,7 @@ const App = () => {
 
   useEffect(() => {
     const handleLoad = () => {
-      setTimeout(() => setLoading(false), 1000); // delay for smooth fade
+      setTimeout(() => setLoading(false), 1000);
     };
 
     if (document.readyState === "complete") handleLoad();
