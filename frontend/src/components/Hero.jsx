@@ -30,7 +30,7 @@ const Hero = () => {
                     src={assets.hero_img}
                     className={`w-full transition-opacity duration-500 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
                     alt=""
-                    onLoad={() => setImgLoaded(false)}
+                    onLoad={() => setImgLoaded(true)}
                 />
             </div>
         </div>
