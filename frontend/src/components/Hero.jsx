@@ -2,39 +2,43 @@ import React, { useState } from 'react'
 import { assets } from '../assets/assets'
 
 const Hero = () => {
-    const [imgLoaded, setImgLoaded] = useState(false)
+  const [imgLoaded, setImgLoaded] = useState(false)
 
-    return (
-        <div className='flex flex-col sm:flex-row border border-gray-300'>
-            <div className='w-full sm:w-1/2 flex items-center justify-center py-10 sm:py-0'>
-                <div className='text-[#414141]'>
-                    <div className='flex items-center gap-2'>
-                        <p className='w-8 md:w-11 h-0.5 bg-[#414141]'></p>
-                        <p className='font-medium text-sm md:text-base'>OUR BESTSELLER</p>
-                    </div>
-                    <h1 className='prata-regular text-3xl  lg:text-5xl leading-relaxed '>Latest Arrivals</h1>
-                    <div className='flex items-center gap-2'>
-                        <p className='font-semibold text-sm md:text-base'>SHOP NOW</p>
-                        <p className='w-8 mdLw-11 h-0.5 bg-[#414141] '></p>
-                    </div>
-                </div>
-            </div>
-
-            <div className='w-full sm:w-1/2 relative flex items-center justify-center'>
-                {!imgLoaded && (
-                    <div className='absolute inset-0 flex items-center justify-center bg-gray-100 animate-pulse'>
-                        
-                    </div>
-                )}
-                <img
-                    src={assets.hero_img}
-                    className={`w-full min-w-full transition-opacity duration-500 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
-                    alt=""
-                    onLoad={() => setImgLoaded(true)}
-                />
-            </div>
+  return (
+    <div className="flex flex-col sm:flex-row border border-gray-300">
+      <div className="w-full sm:w-1/2 flex items-center justify-center py-10 sm:py-0">
+        <div className="text-[#414141]">
+          <div className="flex items-center gap-2">
+            <p className="w-8 md:w-11 h-0.5 bg-[#414141]"></p>
+            <p className="font-medium text-sm md:text-base">OUR BESTSELLER</p>
+          </div>
+          <h1 className="prata-regular text-3xl lg:text-5xl leading-relaxed">
+            Latest Arrivals
+          </h1>
+          <div className="flex items-center gap-2">
+            <p className="font-semibold text-sm md:text-base">SHOP NOW</p>
+            <p className="w-8 mdLw-11 h-0.5 bg-[#414141] "></p>
+          </div>
         </div>
-    )
+      </div>
+
+      <div className="w-full sm:w-1/2 relative flex items-center justify-center overflow-hidden">
+        {!imgLoaded && (
+          <div className="absolute inset-0 animate-pulse bg-linear-to-r from-gray-200 via-gray-300 to-gray-200" />
+        )}
+
+        <img
+          src={assets.hero_img}
+          alt="Hero"
+          loading="lazy"
+          onLoad={() => setImgLoaded(true)}
+          className={`w-full h-full object-cover transition-opacity duration-700 ease-in-out ${
+            imgLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
+        />
+      </div>
+    </div>
+  )
 }
 
 export default Hero
