@@ -11,22 +11,28 @@ const ProductItem = ({ id, name, image, price }) => {
       className="text-gray-700 cursor-pointer group"
       to={`/product/${id}`}
     >
+      {/* Image Wrapper */}
       <div className="relative overflow-hidden bg-gray-100 rounded-sm">
+        {/* Skeleton while loading */}
         {!imgLoaded && (
-          <div className="absolute inset-0 animate-pulse bg-linear-to-r from-gray-200 via-gray-300 to-gray-200 rounded-lg min-w-full" />
+          <div className="absolute inset-0 animate-pulse bg-linear-to-r from-gray-200 via-gray-300 to-gray-200 rounded-sm" />
         )}
 
-        <img
-          src={image[0]}
-          alt={name}
-          loading="lazy"
-          onLoad={() => setImgLoaded(true)}
-          className={`transition-transform duration-100 ease-in-out ${
-            imgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-95"
-          } group-hover:scale-110 min-w-full w-full `}
-        />
+        {/* Image container to keep fixed size */}
+        <div className="w-full aspect-[1/1.1] overflow-hidden">
+          <img
+            src={image[0]}
+            alt={name}
+            loading="lazy"
+            onLoad={() => setImgLoaded(flase)}
+            className={`object-cover w-full h-full transition-transform duration-300 ease-in-out 
+              ${imgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-95"} 
+              group-hover:scale-110`}
+          />
+        </div>
       </div>
 
+      {/* Product info */}
       <div className="pt-3">
         <p className="text-sm truncate">{name}</p>
         <p className="text-sm font-semibold text-gray-900">
