@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { assets } from '../assets/assets'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import logo from '../assets/SHOPWAVE-removebg-preview (1).png'
+import { ShopContext } from '../context/ShopContext'
 
 const Navbar = () => {
     const navigate = useNavigate()
     const [visible, setVisible] = useState(false)
     const [profile, setProfile] = useState(false)
+    const {setShowSearch} = useContext(ShopContext)
 
     useEffect(() => {
         if (visible) {
@@ -17,7 +19,13 @@ const Navbar = () => {
         return () => {
             document.body.style.overflow = 'auto'
         }
-    }, [visible])
+    }, [visible,setShowSearch])
+
+    const mobileSear = (e)=>{
+        e.preventDefault()
+        setVisible(false)
+        setShowSearch(true)
+    }
 
     return (
         <div className="flex items-center justify-between py-5 font-medium relative">
@@ -48,7 +56,7 @@ const Navbar = () => {
             </ul>
 
             <div className="flex items-center gap-6">
-                <img src={assets.search_icon} className="w-5 cursor-pointer" alt="Search" />
+                <img src={assets.search_icon} className="w-5 cursor-pointer" alt="Search" onClick={()=>setShowSearch(true)} />
 
                 <div className="relative">
                     <img
@@ -149,6 +157,7 @@ const Navbar = () => {
                                 src={assets.search_icon}
                                 className="w-5 cursor-pointer"
                                 alt="Search"
+                                onClick={mobileSear}
                             />
                             <img
                                 src={assets.cart_icon}

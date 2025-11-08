@@ -11,6 +11,7 @@ import Orders from "./pages/Orders";
 import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import Footer from "./components/Footer";
+import SearcBar from "./components/SearcBar";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -43,6 +44,7 @@ const App = () => {
           <div className="px-1">
             <Navbar />
           </div>
+          <SearcBar />
 
           <Routes>
             <Route path="/" element={<Home />} />
