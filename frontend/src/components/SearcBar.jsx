@@ -8,7 +8,7 @@ const SearcBar = () => {
     const [visiable,setVisible] = useState(false)
     const location = useLocation()
     useEffect(()=>{
-        if(location.pathname.includes('#/collection')){
+        if(location.pathname.includes('#/collection') || location.pathname.includes('collection')){
             setVisible(true)
         }
         else {
