@@ -8,7 +8,7 @@ const Navbar = () => {
     const navigate = useNavigate()
     const [visible, setVisible] = useState(false)
     const [profile, setProfile] = useState(false)
-    const {setShowSearch} = useContext(ShopContext)
+    const { setShowSearch } = useContext(ShopContext)
 
     useEffect(() => {
         if (visible) {
@@ -19,15 +19,15 @@ const Navbar = () => {
         return () => {
             document.body.style.overflow = 'auto'
         }
-    }, [visible,setShowSearch])
+    }, [visible, setShowSearch])
 
-    const mobileSear = (e)=>{
+    const mobileSear = (e) => {
         e.preventDefault()
         navigate('/collection')
         setVisible(false)
         setShowSearch(true)
     }
-    const serch = (e)=>{
+    const serch = (e) => {
         e.preventDefault()
         navigate('/collection')
         setShowSearch(true)
