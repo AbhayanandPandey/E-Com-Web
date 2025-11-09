@@ -23,7 +23,13 @@ const Navbar = () => {
 
     const mobileSear = (e)=>{
         e.preventDefault()
+        navigate('/collection')
         setVisible(false)
+        setShowSearch(true)
+    }
+    const serch = (e)=>{
+        e.preventDefault()
+        navigate('/collection')
         setShowSearch(true)
     }
 
@@ -56,7 +62,7 @@ const Navbar = () => {
             </ul>
 
             <div className="flex items-center gap-6">
-                <img src={assets.search_icon} className="w-5 cursor-pointer" alt="Search" onClick={()=>setShowSearch(true)} />
+                <img src={assets.search_icon} className="w-5 cursor-pointer" alt="Search" onClick={serch} />
 
                 <div className="relative">
                     <img
@@ -152,7 +158,7 @@ const Navbar = () => {
                             </NavLink>
                         </ul>
 
-                        <div className="mt-auto flex items-center justify-around pt-6 border-t">
+                        <div className="mt-auto flex items-center justify-around pt-6 border-t mb-15">
                             <img
                                 src={assets.search_icon}
                                 className="w-5 cursor-pointer"
