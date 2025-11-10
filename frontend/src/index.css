@@ -41,6 +41,9 @@ a.active hr{
   }
 }
 
+::-webkit-scrollbar{
+  display: none;
+}
 
 @keyframes fadeIn {
   0% { opacity: 0; transform: translateY(10px); }
