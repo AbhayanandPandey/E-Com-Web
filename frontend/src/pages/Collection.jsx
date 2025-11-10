@@ -3,54 +3,63 @@ import { ShopContext } from "../context/ShopContext";
 import { assets } from "../assets/assets";
 import Title from "../components/Title";
 import ProductItem from "../components/ProductItem";
+import { useNavigate } from "react-router-dom";
 
 const Collection = () => {
-  const { products } = useContext(ShopContext);
+  const { products, search, showSearch, setSearch, setShowSearch } = useContext(ShopContext);
   const [showFilter, setShowFilter] = useState(false);
   const [filterProd, setFilterProd] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [sort, setSort] = useState("relevant");
-
   const [visibleCount, setVisibleCount] = useState(0);
   const [loadingMore, setLoadingMore] = useState(false);
 
+  const navigate = useNavigate();
+
   const getInitialCount = () => {
     if (window.innerWidth >= 1024) return 12;
-    if (window.innerWidth >= 640) return 12; 
+    if (window.innerWidth >= 640) return 12;
     return 10;
   };
 
-  
   useEffect(() => {
     setVisibleCount(getInitialCount());
   }, []);
 
-  
   useEffect(() => {
-    const handleResize = () => {
-      setVisibleCount(getInitialCount());
-    };
+    const handleResize = () => setVisibleCount(getInitialCount());
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  
   useEffect(() => {
     let filtered = [...products];
-    if (selectedCategories.length > 0) {
-      filtered = filtered.filter((p) => selectedCategories.includes(p.category));
+
+    if (showSearch && search.trim() !== "") {
+      filtered = filtered.filter((p) =>
+        p.name.toLowerCase().includes(search.toLowerCase())
+      );
+    } else {
+      if (selectedCategories.length > 0) {
+        filtered = filtered.filter((p) =>
+          selectedCategories.includes(p.category)
+        );
+      }
+      if (selectedTypes.length > 0) {
+        filtered = filtered.filter((p) =>
+          selectedTypes.includes(p.subCategory)
+        );
+      }
     }
-    if (selectedTypes.length > 0) {
-      filtered = filtered.filter((p) => selectedTypes.includes(p.subCategory));
-    }
+
     if (sort === "low-high") filtered.sort((a, b) => a.price - b.price);
     if (sort === "high-low") filtered.sort((a, b) => b.price - a.price);
+
     setFilterProd(filtered);
     setVisibleCount(getInitialCount());
-  }, [selectedCategories, selectedTypes, sort, products]);
+  }, [search, showSearch, selectedCategories, selectedTypes, sort, products]);
 
-  
   const handleCategoryChange = (e) => {
     const value = e.target.value;
     setSelectedCategories((prev) =>
@@ -65,7 +74,6 @@ const Collection = () => {
     );
   };
 
-  
   useEffect(() => {
     const handleScroll = () => {
       if (
@@ -80,16 +88,21 @@ const Collection = () => {
         }, 800);
       }
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [loadingMore]);
 
   const visibleProducts = filterProd.slice(0, visibleCount);
 
+  const handleBackToAll = () => {
+    setSearch("");
+    setShowSearch(false);
+    navigate("/collection");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <div className="flex flex-col sm:flex-row gap-8 pt-10 border-t border-gray-200 pb-8 px-3 sm:px-6 lg:px-10 bg-white">
-      
       <aside
         className={`w-full sm:w-64 sm:sticky sm:top-24 h-auto sm:h-[80vh] scrollbar-thin scrollbar-thumb-gray-300 rounded-xl border border-gray-200 bg-gray-50 sm:p-5 p-3 transition-all duration-300 ${
           showFilter ? "max-h-screen" : "max-h-14 sm:max-h-full"
@@ -97,9 +110,9 @@ const Collection = () => {
       >
         <div
           onClick={() => setShowFilter(!showFilter)}
-          className="flex justify-between items-center cursor-pointer text-lg font-semibold text-gray-800 sm:cursor-default sm:mb-5 "
+          className="flex justify-between items-center cursor-pointer text-lg font-semibold text-gray-800 sm:cursor-default sm:mb-5"
         >
-          <span className="w-full h-fit py-0">Filters</span>
+          <span>Filters</span>
           <img
             src={assets.dropdown_icon}
             className={`h-3 sm:hidden transform transition-transform ${
@@ -110,7 +123,6 @@ const Collection = () => {
         </div>
 
         <div className={`${showFilter ? "block" : "hidden"} sm:block mt-3`}>
-          
           <div className="mb-6">
             <p className="mb-3 text-sm font-medium text-gray-600 uppercase tracking-wide">
               Categories
@@ -126,6 +138,7 @@ const Collection = () => {
                     value={cat}
                     onChange={handleCategoryChange}
                     className="accent-black w-4 h-4"
+                    checked={selectedCategories.includes(cat)}
                   />
                   {cat}
                 </label>
@@ -133,7 +146,6 @@ const Collection = () => {
             </div>
           </div>
 
-          
           <div>
             <p className="mb-3 text-sm font-medium text-gray-600 uppercase tracking-wide">
               Type
@@ -149,6 +161,7 @@ const Collection = () => {
                     value={type}
                     onChange={handleTypeChange}
                     className="accent-black w-4 h-4"
+                    checked={selectedTypes.includes(type)}
                   />
                   {type}
                 </label>
@@ -158,10 +171,11 @@ const Collection = () => {
         </div>
       </aside>
 
-      
       <main className="flex-1">
         <div className="flex flex-row justify-between items-start sm:items-center mb-6 gap-4">
-          <div className="mt-1.5"><Title text1="ALL" text2="COLLECTIONS" /></div>
+          <div className="mt-1.5">
+            <Title text1="ALL" text2="COLLECTIONS" />
+          </div>
           <select
             onChange={(e) => setSort(e.target.value)}
             className="border border-gray-300 bg-gray-50 hover:bg-gray-100 text-sm rounded-md px-3 py-2 outline-none cursor-pointer transition"
@@ -173,9 +187,22 @@ const Collection = () => {
         </div>
 
         {filterProd.length === 0 ? (
-          <p className="text-gray-500 text-center mt-10 text-sm">
-            No products match your filters.
-          </p>
+          <div className="flex flex-col items-center justify-center mt-20 text-gray-500">
+            <img
+              src={assets.search_icon}
+              alt="No products"
+              className="w-10 h-10 opacity-60 mb-3"
+            />
+            <p className="text-base font-medium">
+              No products {showSearch ? "found for your search" : "match your filters"}.
+            </p>
+            <button
+              onClick={handleBackToAll}
+              className="mt-5 px-5 py-2 bg-black text-white rounded-full text-sm hover:bg-gray-800 transition"
+            >
+              Back to All Products
+            </button>
+          </div>
         ) : (
           <>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -190,7 +217,6 @@ const Collection = () => {
               ))}
             </div>
 
-            
             {visibleCount < filterProd.length && (
               <div className="flex justify-center mt-10">
                 <div className="w-8 h-8 border-4 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
