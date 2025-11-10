@@ -69,7 +69,7 @@ const Product = () => {
             </div>
         </div>
       </div>
-      <div className='mt-20 '>
+      <div className='mt-13 '>
           <div className='flex '>
             <b className=' border border-gray-300 px-5 py-3 text-sm'>Description</b>
             <p className=' border border-gray-300 px-5 py-3 text-sm'> Reviews (292)</p>
