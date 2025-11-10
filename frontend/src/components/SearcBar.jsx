@@ -22,7 +22,7 @@ const SearchBar = () => {
         className="inline w-3 cursor-pointer ml-2 opacity-70 hover:opacity-100 transition"
         onClick={() => {
           setShowSearch(false)
-          setSearch('') 
+          setSearch('')
         }}
         alt="Close"
       />

@@ -78,7 +78,7 @@ const Collection = () => {
     const handleScroll = () => {
       if (
         window.innerHeight + window.scrollY >=
-          document.body.offsetHeight - 300 &&
+        document.body.offsetHeight - 300 &&
         !loadingMore
       ) {
         setLoadingMore(true);
@@ -104,9 +104,8 @@ const Collection = () => {
   return (
     <div className="flex flex-col sm:flex-row gap-8 pt-10 border-t border-gray-200 pb-8 px-3 sm:px-6 lg:px-10 bg-white">
       <aside
-        className={`w-full sm:w-64 sm:sticky sm:top-24 h-auto sm:h-[80vh] scrollbar-thin scrollbar-thumb-gray-300 rounded-xl border border-gray-200 bg-gray-50 sm:p-5 p-3 transition-all duration-300 ${
-          showFilter ? "max-h-screen" : "max-h-14 sm:max-h-full"
-        }`}
+        className={`w-full sm:w-64 sm:sticky sm:top-24 h-auto sm:h-[80vh] scrollbar-thin scrollbar-thumb-gray-300 rounded-xl border border-gray-200 bg-gray-50 sm:p-5 p-3 transition-all duration-300 ${showFilter ? "max-h-screen" : "max-h-14 sm:max-h-full"
+          }`}
       >
         <div
           onClick={() => setShowFilter(!showFilter)}
@@ -115,9 +114,8 @@ const Collection = () => {
           <span>Filters</span>
           <img
             src={assets.dropdown_icon}
-            className={`h-3 sm:hidden transform transition-transform ${
-              showFilter ? "rotate-90" : ""
-            }`}
+            className={`h-3 sm:hidden transform transition-transform ${showFilter ? "rotate-90" : ""
+              }`}
             alt=""
           />
         </div>
