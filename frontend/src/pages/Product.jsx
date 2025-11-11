@@ -1,34 +1,40 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { ShopContext } from '../context/ShopContext';
-import { assets } from '../assets/assets';
-import RelatedProduct from '../components/RelatedProduct';
+import React, { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { ShopContext } from "../context/ShopContext";
+import { assets } from "../assets/assets";
+import RelatedProduct from "../components/RelatedProduct";
+import SkeletonProduct from "../components/SkeletonProduct";
 
 const Product = () => {
   const { productId } = useParams();
-  const { products, currency } = useContext(ShopContext)
+  const { products, currency } = useContext(ShopContext);
 
-  const [size, setSize] = useState('')
-  const [image, setImage] = useState('')
-  const [productData, setProductData] = useState(false)
+  const [size, setSize] = useState("");
+  const [image, setImage] = useState("");
+  const [productData, setProductData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const fetchProductData = async () => {
-    products.map((i) => {
-      if (i._id === productId) {
-        setProductData(i)
-        setImage(i.image[0])
-        return null
-      }
-    })
-  }
+    setLoading(true);
+    const selected = products.find((i) => i._id === productId);
+    if (selected) {
+      setProductData(selected);
+      setImage(selected.image[0]);
+    }
+    setTimeout(() => setLoading(false), 800); // smooth delay
+  };
 
   useEffect(() => {
-    fetchProductData()
-  }, [productId])
-  return productData ? (
-    <div className='border-gray-300 border-t-2 pt-10 transition-opacity ease-in duration-500 opacity-100'>
-      <div className='flex gap-12 flex-col sm:flex-row'>
-        <div className='flex-1 flex flex-col-reverse gap-3 sm:flex-row'>
+    fetchProductData();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [productId]);
+
+  if (loading) return <SkeletonProduct />;
+
+  return (
+    <div className="border-gray-300 border-t-2 pt-10 transition-opacity ease-in duration-500 opacity-100">
+      <div className="flex gap-12 flex-col sm:flex-row">
+        <div className="flex-1 flex flex-col-reverse gap-3 sm:flex-row">
           <div className="flex sm:flex-col overflow-x-auto sm:overflow-y-scroll justify-between sm:justify-normal sm:w-[18.7%] w-full">
             {productData.image.map((item, i) => (
               <img
@@ -37,72 +43,87 @@ const Product = () => {
                 alt=""
                 onClick={() => setImage(item)}
                 className={`w-[24%] sm:w-full sm:mb-3 shrink-0 cursor-pointer rounded-md border transition 
-                  ${image === item ? "border border-black" : "border border-transparent hover:border-gray-300"}`}
+                  ${
+                    image === item
+                      ? "border border-black"
+                      : "border border-transparent hover:border-gray-300"
+                  }`}
               />
             ))}
           </div>
-          <div className='w-full sm:w-[80%]'>
-            <img src={image} alt="" className='w-full h-auto rounded' />
+          <div className="w-full sm:w-[80%]">
+            <img src={image} alt="" className="w-full h-auto rounded" />
           </div>
         </div>
-        <div className='flex-1'>
-          <h1 className='font-medium text-2xl mt-2'>{productData.name}</h1>
-          <div className='flex items-center gap-1 mt-2'>
-            <img src={assets.star_icon} alt="" className='w-3.5 ' />
-            <img src={assets.star_icon} alt="" className='w-3.5 ' />
-            <img src={assets.star_icon} alt="" className='w-3.5 ' />
-            <img src={assets.star_icon} alt="" className='w-3.5 ' />
-            <img src={assets.star_dull_icon} alt="" className='w-3.5 ' />
-            <p className='pl-2'>(292)</p>
+
+        <div className="flex-1">
+          <h1 className="font-medium text-2xl mt-2">{productData.name}</h1>
+          <div className="flex items-center gap-1 mt-2">
+            <img src={assets.star_icon} alt="" className="w-3.5" />
+            <img src={assets.star_icon} alt="" className="w-3.5" />
+            <img src={assets.star_icon} alt="" className="w-3.5" />
+            <img src={assets.star_icon} alt="" className="w-3.5" />
+            <img src={assets.star_dull_icon} alt="" className="w-3.5" />
+            <p className="pl-2 text-gray-500 text-sm">(292)</p>
           </div>
-          <p className='mt-5 text-3xl font-medium'> {currency}{productData.price}</p>
-          <p className='mt-5 text-gray-500 w-4/5'>{productData.description}</p>
-          <div className='flex flex-col gap-2 my-8'>
+
+          <p className="mt-5 text-3xl font-medium">
+            {currency}
+            {productData.price}
+          </p>
+          <p className="mt-5 text-gray-500 w-4/5">{productData.description}</p>
+
+          <div className="flex flex-col gap-2 my-8">
             <p>Select Size</p>
-            <div className='flex gap-2'>
+            <div className="flex gap-2">
               {productData.sizes.map((item, i) => (
-                <button onClick={() => setSize(item)} key={i} className={`border-gray-100 border py-2 px-4 bg-gray-100 cursor-pointer rounded ${item === size ? 'border-orange-500 border-2' : ''}`}>{item}</button>
+                <button
+                  onClick={() => setSize(item)}
+                  key={i}
+                  className={`border-gray-100 border py-2 px-4 bg-gray-100 cursor-pointer rounded ${
+                    item === size ? "border-orange-500 border-2" : ""
+                  }`}
+                >
+                  {item}
+                </button>
               ))}
             </div>
           </div>
-          <button className='bg-black text-white px-8 py-3 text-sm active:bg-gray-700 rounded'>ADD TO CART</button>
-          <hr className='mt-8 sm:w-4/5 text-gray-300' />
-          <div className='text-sm text-gray-500 mt-5 flex flex-col gap-1'>
+
+          <button className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700 rounded">
+            ADD TO CART
+          </button>
+
+          <hr className="mt-8 sm:w-4/5 text-gray-300" />
+          <div className="text-sm text-gray-500 mt-5 flex flex-col gap-1">
             <p>100% Original products.</p>
-            <p>Cash on delivey is available on this product. </p>
-            <p> Easy return & exchange Policy in 10 days</p>
+            <p>Cash on delivery is available on this product.</p>
+            <p>Easy return & exchange policy within 10 days.</p>
           </div>
         </div>
       </div>
-      <div className='mt-13 '>
-        <div className='flex'>
-          <b className='border border-gray-300 px-5 py-3 text-sm'>Description</b>
-          <p className='border border-gray-300 px-5 py-3 text-sm'>Reviews (292)</p>
+
+      <div className="mt-13">
+        <div className="flex">
+          <b className="border border-gray-300 px-5 py-3 text-sm">Description</b>
+          <p className="border border-gray-300 px-5 py-3 text-sm">Reviews (292)</p>
         </div>
-        <div className='flex flex-col gap-4 border border-gray-300 p-6 text-sm text-gray-500'>
+        <div className="flex flex-col gap-4 border border-gray-300 p-6 text-sm text-gray-500">
           <p>
-            This product is crafted with premium-quality materials to ensure
-            exceptional comfort, durability, and a modern aesthetic. Designed to fit
-            seamlessly into your everyday lifestyle, it offers both functionality and
-            style. Every detail — from stitching to fabric — has been carefully chosen
-            to deliver a product that feels as good as it looks.
+            This product is crafted with premium-quality materials to ensure exceptional comfort, durability, and a modern aesthetic. Designed to fit seamlessly into your everyday lifestyle, it offers both functionality and style.
           </p>
           <p>
-            Perfect for casual outings, workwear, or special occasions, this piece
-            combines versatility with timeless design. It’s easy to maintain, gentle
-            on the skin, and built to last. Upgrade your wardrobe with this reliable
-            essential and experience a balance of comfort, confidence, and quality in
-            every wear.
+            Perfect for casual outings, workwear, or special occasions, this piece combines versatility with timeless design. It’s easy to maintain, gentle on the skin, and built to last.
           </p>
         </div>
       </div>
 
-
-      <div>
-        <RelatedProduct category={productData.category} subCategory={productData.subCategory} />
-      </div>
+      <RelatedProduct
+        category={productData.category}
+        subCategory={productData.subCategory}
+      />
     </div>
-  ) : <div className=' opacity-0'></div>
-}
+  );
+};
 
-export default Product
+export default Product;
