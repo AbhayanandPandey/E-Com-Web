@@ -41,7 +41,6 @@ const Product = () => {
               />
             ))}
           </div>
-
           <div className='w-full sm:w-[80%]'>
             <img src={image} alt="" className='w-full h-auto rounded' />
           </div>
