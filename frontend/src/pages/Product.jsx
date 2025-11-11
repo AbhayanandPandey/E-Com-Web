@@ -75,15 +75,28 @@ const Product = () => {
         </div>
       </div>
       <div className='mt-13 '>
-        <div className='flex '>
-          <b className=' border border-gray-300 px-5 py-3 text-sm'>Description</b>
-          <p className=' border border-gray-300 px-5 py-3 text-sm'> Reviews (292)</p>
+        <div className='flex'>
+          <b className='border border-gray-300 px-5 py-3 text-sm'>Description</b>
+          <p className='border border-gray-300 px-5 py-3 text-sm'>Reviews (292)</p>
         </div>
         <div className='flex flex-col gap-4 border border-gray-300 p-6 text-sm text-gray-500'>
-          <p> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Hic quo non illo delectus similique velit maxime nulla pariatur, doloribus perspiciatis! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Impedit corporis ducimus maiores dicta illo nihil optio ullam perspiciatis voluptates aut.</p>
-          <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus obcaecati quod recusandae placeat ducimus nemo a quae. Fugit, vel iure culpa velit beatae necessitatibus qui quis, eum at voluptatibus consectetur? Lorem ipsum dolor sit amet consectetur adipisicing elit. A, sunt aliquid! Quam fugit ex asperiores ducimus fugiat quisquam, natus dolores?</p>
+          <p>
+            This product is crafted with premium-quality materials to ensure
+            exceptional comfort, durability, and a modern aesthetic. Designed to fit
+            seamlessly into your everyday lifestyle, it offers both functionality and
+            style. Every detail — from stitching to fabric — has been carefully chosen
+            to deliver a product that feels as good as it looks.
+          </p>
+          <p>
+            Perfect for casual outings, workwear, or special occasions, this piece
+            combines versatility with timeless design. It’s easy to maintain, gentle
+            on the skin, and built to last. Upgrade your wardrobe with this reliable
+            essential and experience a balance of comfort, confidence, and quality in
+            every wear.
+          </p>
         </div>
       </div>
+
 
       <div>
         <RelatedProduct category={productData.category} subCategory={productData.subCategory} />
