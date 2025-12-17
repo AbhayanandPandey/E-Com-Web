@@ -15,15 +15,14 @@ const Product = () => {
   const [loading, setLoading] = useState(true);
 
   const fetchProductData = async () => {
-  setLoading(true);
-  const selected = products.find((i) => i._id === productId);
-  if (selected) {
-    setProductData(selected);
-    setImage(selected.image[0]);
-    setSize(selected.sizes[0]); 
-  }
-  setTimeout(() => setLoading(false), 800);
-};
+    setLoading(true);
+    const selected = products.find((i) => i._id === productId);
+    if (selected) {
+      setProductData(selected);
+      setImage(selected.image[0]);
+    }
+    setTimeout(() => setLoading(false), 800); 
+  };
 
   useEffect(() => {
     fetchProductData();
@@ -91,7 +90,9 @@ const Product = () => {
             </div>
           </div>
 
-          <button className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700 rounded" onClick={()=>AddToCart(productData._id,size)}>
+          <button className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700 rounded" onClick={()=>{AddToCart(productData._id,size);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}>
             ADD TO CART
           </button>
 

@@ -12,6 +12,7 @@ import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import Footer from "./components/Footer";
 import SearcBar from "./components/SearcBar";
+import {ToastContainer, toast } from 'react-toastify'
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -41,6 +42,7 @@ const App = () => {
         </div>
       ) : (
         <div className="px-4 lg:px-[5vw] fade-in-slow">
+          <ToastContainer  />
           <div className="px-1">
             <Navbar />
           </div>
