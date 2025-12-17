@@ -7,7 +7,7 @@ import SkeletonProduct from "../components/SkeletonProduct";
 
 const Product = () => {
   const { productId } = useParams();
-  const { products, currency } = useContext(ShopContext);
+  const { products, currency, AddToCart } = useContext(ShopContext);
 
   const [size, setSize] = useState("");
   const [image, setImage] = useState("");
@@ -15,14 +15,15 @@ const Product = () => {
   const [loading, setLoading] = useState(true);
 
   const fetchProductData = async () => {
-    setLoading(true);
-    const selected = products.find((i) => i._id === productId);
-    if (selected) {
-      setProductData(selected);
-      setImage(selected.image[0]);
-    }
-    setTimeout(() => setLoading(false), 800); // smooth delay
-  };
+  setLoading(true);
+  const selected = products.find((i) => i._id === productId);
+  if (selected) {
+    setProductData(selected);
+    setImage(selected.image[0]);
+    setSize(selected.sizes[0]); 
+  }
+  setTimeout(() => setLoading(false), 800);
+};
 
   useEffect(() => {
     fetchProductData();
@@ -81,7 +82,7 @@ const Product = () => {
                   onClick={() => setSize(item)}
                   key={i}
                   className={`border-gray-100 border py-2 px-4 bg-gray-100 cursor-pointer rounded ${
-                    item === size ? "border-orange-500 border-2" : ""
+                    item === size ? " bg-gray-950 text-white" : ""
                   }`}
                 >
                   {item}
@@ -90,7 +91,7 @@ const Product = () => {
             </div>
           </div>
 
-          <button className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700 rounded">
+          <button className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700 rounded" onClick={()=>AddToCart(productData._id,size)}>
             ADD TO CART
           </button>
 
